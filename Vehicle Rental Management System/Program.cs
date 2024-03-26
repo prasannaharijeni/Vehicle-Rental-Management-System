@@ -93,3 +93,76 @@ public class Motorcycle : Vehicle
         Console.WriteLine($"Engine Capacity: {EngineCapacity}cc, Fuel Type: {FuelType}, Has Fairing: {HasFairing}");
     }
 }
+
+//Creating the Rental Agency to perform the actions to rent a vehicle from the company
+public class RentalAgency
+{
+    private Vehicle[] fleet = new Vehicle[50]; // Assuming a max of 50 vehicles for simplicity
+    public decimal TotalRevenue { get; private set; }
+    private int currentVehicleCount = 0;
+
+    //To add a new vehicle to the rental company
+    public void AddVehicle(Vehicle vehicle)
+    {
+        if (currentVehicleCount < fleet.Length)
+        {
+            fleet[currentVehicleCount] = vehicle;
+            currentVehicleCount++;
+            Console.WriteLine($"Vehicle {vehicle.Model} added to the fleet.");
+        }
+        else
+        {
+            Console.WriteLine("Fleet capacity reached. Cannot add more vehicles.");
+        }
+    }
+
+    //To remove a vehicle from the rental company
+    public bool RemoveVehicle(string model)
+    {
+        for (int i = 0; i < currentVehicleCount; i++)
+        {
+            if (fleet[i] != null && fleet[i].Model == model)
+            {
+                // Shift all vehicles down one slot from the point of removal
+                for (int j = i; j < currentVehicleCount - 1; j++)
+                {
+                    fleet[j] = fleet[j + 1];
+                }
+                fleet[currentVehicleCount - 1] = null; // Clear the last entry
+                currentVehicleCount--;
+                Console.WriteLine($"Vehicle {model} removed from the fleet.");
+                return true;
+            }
+        }
+        Console.WriteLine("Vehicle not found.");
+        return false;
+    }
+
+    //To rent a vehicle from the rental company
+    public void RentVehicle(string model, decimal rentalPrice)
+    {
+        for (int i = 0; i < currentVehicleCount; i++)
+        {
+            if (fleet[i] != null && fleet[i].Model == model)
+            {
+                TotalRevenue += rentalPrice;
+                Console.WriteLine($"{model} has been rented for {rentalPrice}.");
+                return;
+            }
+        }
+        Console.WriteLine("Vehicle is not available in the fleet.");
+    }
+
+    //To display the overall fleet to the user to select the ride from the available vehicles
+    public void DisplayFleet()
+    {
+        Console.WriteLine("Fleet Details:");
+        for (int i = 0; i < currentVehicleCount; i++)
+        {
+            if (fleet[i] != null)
+            {
+                fleet[i].DisplayDetails();
+            }
+        }
+    }
+}
