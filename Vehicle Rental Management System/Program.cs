@@ -166,3 +166,60 @@ public class RentalAgency
         }
     }
 }
+
+//Creating the main method to access all the above mentioned classes
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create some vehicles
+        Car car1 = new Car("Model S", "Tesla", 2022, 299.99M, 5, "Electric", "Automatic", true);
+        Truck truck1 = new Truck("F-150", "Ford", 2020, 359.99M, 2.0, "Pickup", true);
+        Motorcycle motorcycle1 = new Motorcycle("Ninja ZX-6R", "Kawasaki", 2021, 199.99M, 636, "Petrol", false);
+
+        // Create rental agency
+        RentalAgency rentalAgency = new RentalAgency();
+
+        // Add car to fleet
+        Console.WriteLine("\nCar details to be added to the fleet: ");
+        // car1.DisplayDetails();
+
+        rentalAgency.AddVehicle(car1);
+
+        //Add truck to the fleet
+        Console.WriteLine("\nTruck details to be added to the fleet: ");
+        //truck1.DisplayDetails();
+        rentalAgency.AddVehicle(truck1);
+
+        //Add motorcycle to the fleet
+        Console.WriteLine("\nMotorcycle details to be added to the fleet: ");
+        //motorcycle1.DisplayDetails();
+        rentalAgency.AddVehicle(motorcycle1);
+
+        //Display the fleet details
+        Console.WriteLine("\nFleet details after adding the car:");
+        rentalAgency.DisplayFleet();
+        //rentalAgency.AddVehicle(truck1);
+
+        // Rent the car
+        Console.WriteLine("\nRenting the car...");
+        rentalAgency.RentVehicle("Model S", car1.RentalPrice);
+
+        // Rent the Truck
+        Console.WriteLine("\nRenting the truck...");
+        rentalAgency.RentVehicle("F-150", truck1.RentalPrice);
+
+        // Rent the Motorcycle
+        Console.WriteLine("\nRenting the motorcycle...");
+        rentalAgency.RentVehicle("Ninja ZX-6R", motorcycle1.RentalPrice);
+
+        //try to rent an already rented vehicle which is not available
+        Console.WriteLine("\nAttempt to rent the same car again to demonstrate availability check");
+        Console.WriteLine("Trying to rent the same car again...");
+        rentalAgency.RentVehicle("Model 3", car1.RentalPrice);
+
+        //Try to rent a vehicle which is not added to the fleet
+        Console.WriteLine("\nTrying to display details of a vehicle which is not in the fleet list");
+        rentalAgency.RentVehicle("Ram", truck1.RentalPrice);
+    }
+}
